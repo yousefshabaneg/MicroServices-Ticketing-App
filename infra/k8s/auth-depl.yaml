@@ -19,6 +19,9 @@ spec:
           image: yousefshabaneg/auth
           ports:
             - containerPort: 3000
+          env:
+            - name: MONGO_URI
+              value: mongodb://auth-mongo-srv:27017/auth
 ---
 apiVersion: v1
 kind: Service

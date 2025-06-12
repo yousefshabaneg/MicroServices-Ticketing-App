@@ -6,6 +6,8 @@ import { signoutRouter } from "./routes/signOut.route";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { NotFoundError } from "./errors/NotFoundError";
 
+import mongoose from "mongoose";
+
 const app = express();
 
 app.use(express.json());
@@ -23,6 +25,17 @@ app.all(/(.*)/, async (req, res, next) => {
 });
 
 app.use(errorMiddleware);
+
+const start = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI!);
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+start();
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
