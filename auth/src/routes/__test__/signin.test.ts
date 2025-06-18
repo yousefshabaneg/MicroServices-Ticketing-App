@@ -2,19 +2,21 @@ import request from "supertest";
 import { app } from "../../app";
 import { expect, it } from "vitest";
 
-it("returns a 201 on successful signup", async () => {
+it("returns a 200 on successful signin", async () => {
+  await global.signin();
+
   return request(app)
-    .post("/api/users/signup")
+    .post("/api/users/signin")
     .send({
       email: "test@test.com",
       password: "password",
     })
-    .expect(201);
+    .expect(200);
 });
 
 it("should return a 400 with an invalid email", async () => {
   return request(app)
-    .post("/api/users/signup")
+    .post("/api/users/signin")
     .send({
       email: "test@test",
       password: "password",
@@ -24,7 +26,7 @@ it("should return a 400 with an invalid email", async () => {
 
 it("should return a 400 with an invalid password", async () => {
   return request(app)
-    .post("/api/users/signup")
+    .post("/api/users/signin")
     .send({
       email: "test@test.com",
       password: "p",
@@ -33,20 +35,15 @@ it("should return a 400 with an invalid password", async () => {
 });
 
 it("should return a 400 with missing email and password", async () => {
-  return request(app).post("/api/users/signup").send({}).expect(400);
+  return request(app).post("/api/users/signin").send({}).expect(400);
 });
 
-it("should return error for duplicate email", async () => {
+it("should return error for not existing email", async () => {
   const email = "user@example.com";
   const password = "myStrongPassword123";
 
-  await request(app)
-    .post("/api/users/signup")
-    .send({ email, password })
-    .expect(201);
-
   const response = await request(app)
-    .post("/api/users/signup")
+    .post("/api/users/signin")
     .send({ email, password })
     .expect(400);
 
@@ -54,19 +51,21 @@ it("should return error for duplicate email", async () => {
   expect(Array.isArray(response.body.errors)).toBe(true);
 
   const hasEmailInUseError = response.body.errors.some((err: any) =>
-    err.message.toLowerCase().includes("email")
+    err.message.toLowerCase().includes("credentials")
   );
 
   expect(hasEmailInUseError).toBe(true);
 });
 
-it("should set a cookie after successful signup", async () => {
+it("should set a cookie after successful signin", async () => {
+  await global.signin();
+
   const response = await request(app)
-    .post("/api/users/signup")
+    .post("/api/users/signin")
     .send({
       email: "test@test.com",
       password: "password",
     })
-    .expect(201);
+    .expect(200);
   expect(response.get("Set-Cookie")).toBeDefined();
 });

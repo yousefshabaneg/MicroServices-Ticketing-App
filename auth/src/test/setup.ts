@@ -12,6 +12,8 @@ declare global {
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
+  console.log(">>> beforeAll: setting up test environment");
+
   process.env.JWT_KEY = "asdfasdf";
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // Optional, if using https in test env
 
@@ -46,7 +48,6 @@ globalThis.signin = async () => {
     .expect(201);
 
   const cookie = response.get("Set-Cookie");
-
   if (!cookie) {
     throw new Error("No cookie returned from signup response");
   }
