@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../models/user.model";
-import { BadRequestError } from "../errors/BadRequestError";
+import { BadRequestError } from "@joe-tickets/common";
 import jwt from "jsonwebtoken";
 
 class SignUpController {

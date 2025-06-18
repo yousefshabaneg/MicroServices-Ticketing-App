@@ -1,7 +1,7 @@
 import express from "express";
 import { signinValidator } from "./validators/signin.validator";
 import { SignInController } from "../controllers/signIn.controller";
-import { validateRequest } from "../middlewares/validation.middleware";
+import { validateRequest } from "@joe-tickets/common";
 
 const router = express.Router();
 

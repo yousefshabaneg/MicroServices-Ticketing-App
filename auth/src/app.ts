@@ -3,8 +3,7 @@ import { currentUserRouter } from "./routes/currentUser.route";
 import { signupRouter } from "./routes/signUp.route";
 import { signinRouter } from "./routes/signIn.route";
 import { signoutRouter } from "./routes/signOut.route";
-import { errorMiddleware } from "./middlewares/error.middleware";
-import { NotFoundError } from "./errors/NotFoundError";
+import { NotFoundError, errorMiddleware } from "@joe-tickets/common";
 import cookieSession from "cookie-session";
 
 const app = express();
