@@ -6,6 +6,8 @@ import {
 } from "@joe-tickets/common";
 import cookieSession from "cookie-session";
 import { createTicketRouter } from "./routes/createTicket.routes";
+import { ticketQueryRouter } from "./routes/ticketQuery.routes";
+import { updateTicketRouter } from "./routes/updateTicket.routes";
 
 const app = express();
 
@@ -21,6 +23,8 @@ app.use(
 
 app.use(CurrentUserMiddleware.currentUser);
 app.use(createTicketRouter);
+app.use(ticketQueryRouter);
+app.use(updateTicketRouter);
 
 app.all(/(.*)/, async (req, res, next) => {
   throw new NotFoundError();
