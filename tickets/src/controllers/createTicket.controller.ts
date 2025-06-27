@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Ticket } from "../models/ticket.model";
-
+import { TicketCreatedPublisher } from "../events/TicketCreatedPublisher";
+import { natsWrapper } from "../NatsWrapper";
 class CreateTicketController {
   static createTicket = async (req: Request, res: Response) => {
     const { title, price } = req.body;
@@ -10,6 +11,12 @@ class CreateTicketController {
       userId: req.currentUser!.id,
     });
     await ticket.save();
+    await new TicketCreatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    });
     res.status(201).json(ticket);
   };
 }

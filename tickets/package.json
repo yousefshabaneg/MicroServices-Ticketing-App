@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "@joe-tickets/common": "^1.0.3",
+    "node-nats-streaming": "^0.3.2",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-session": "^2.0.49",
     "@types/express": "^5.0.3",
