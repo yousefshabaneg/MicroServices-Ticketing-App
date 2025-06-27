@@ -2,7 +2,6 @@
   "name": "nats-test",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "publish": "ts-node-dev --rs --notify false src/publisher.ts",
     "listen": "ts-node-dev --rs --notify false src/listener.ts"

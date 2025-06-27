@@ -1,7 +1,8 @@
 import request from "supertest";
 import { app } from "../../app";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import mongoose from "mongoose";
+import { natsWrapper } from "../../NatsWrapper";
 
 const createTicket = async (cookie?: string) => {
   const title = "concert";
@@ -69,4 +70,16 @@ it("update the ticket provided valid inputs", async () => {
     .send();
   expect(ticketResponse.body.title).toEqual("new title");
   expect(ticketResponse.body.price).toEqual(100);
+});
+
+it("publishes an event", async () => {
+  const cookie = global.signin();
+  const response = await createTicket(cookie);
+  await request(app)
+    .put(`/api/tickets/${response.body.id}`)
+    .set("Cookie", cookie)
+    .send({ title: "new title", price: 100 })
+    .expect(200);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

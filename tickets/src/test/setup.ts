@@ -1,4 +1,4 @@
-import { beforeAll, beforeEach, afterAll } from "vitest";
+import { beforeAll, beforeEach, afterAll, vi } from "vitest";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
@@ -6,6 +6,8 @@ import jwt from "jsonwebtoken";
 declare global {
   var signin: () => string[];
 }
+
+vi.mock("../NatsWrapper");
 
 let mongo: MongoMemoryServer;
 

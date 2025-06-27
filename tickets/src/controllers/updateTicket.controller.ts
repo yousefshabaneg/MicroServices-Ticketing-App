@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { Ticket } from "../models/ticket.model";
 import { NotAuthorizedError, NotFoundError } from "@joe-tickets/common";
+import { TicketUpdatedPublisher } from "../events/TicketUpdatedPublsiher";
+import { natsWrapper } from "../NatsWrapper";
 
 class UpdateTicketController {
   static updateTicket = async (req: Request, res: Response) => {
@@ -23,6 +25,12 @@ class UpdateTicketController {
       },
       { new: true }
     );
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: updatedTicket!.id,
+      title: updatedTicket!.title,
+      price: updatedTicket!.price,
+      userId: updatedTicket!.userId,
+    });
     res.status(200).json(updatedTicket);
   };
 }
