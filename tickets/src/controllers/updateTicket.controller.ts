@@ -17,21 +17,19 @@ class UpdateTicketController {
       throw new NotAuthorizedError();
     }
 
-    const updatedTicket = await Ticket.findByIdAndUpdate(
-      req.params.id,
-      {
-        title,
-        price,
-      },
-      { new: true }
-    );
-    await new TicketUpdatedPublisher(natsWrapper.client).publish({
-      id: updatedTicket!.id,
-      title: updatedTicket!.title,
-      price: updatedTicket!.price,
-      userId: updatedTicket!.userId,
+    ticket.set({
+      title: req.body.title,
+      price: req.body.price,
     });
-    res.status(200).json(updatedTicket);
+    await ticket.save();
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      version: ticket.version,
+      userId: ticket.userId,
+    });
+    res.status(200).json(ticket);
   };
 }
 

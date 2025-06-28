@@ -15,6 +15,7 @@ class CreateTicketController {
       id: ticket.id,
       title: ticket.title,
       price: ticket.price,
+      version: ticket.version,
       userId: ticket.userId,
     });
     res.status(201).json(ticket);
