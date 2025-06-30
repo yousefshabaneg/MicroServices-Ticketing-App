@@ -14,10 +14,8 @@ let mongo: MongoMemoryServer;
 beforeAll(async () => {
   process.env.JWT_KEY = "asdfasdf";
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // Optional, if using https in test env
-
   mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
-
   await mongoose.connect(mongoUri);
 });
 beforeEach(async () => {
