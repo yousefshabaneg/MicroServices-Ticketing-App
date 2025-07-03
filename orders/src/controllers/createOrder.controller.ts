@@ -9,7 +9,7 @@ import { Ticket } from "../models/ticket.model";
 import { OrderCreatedPublisher } from "../events/OrderCreatedPublisher";
 import { natsWrapper } from "../NatsWrapper";
 
-const EXPIRATION_WINDOW_SECONDS = 15 * 60;
+const EXPIRATION_WINDOW_SECONDS = 1 * 60;
 class CreateOrderController {
   static createOrder = async (req: Request, res: Response) => {
     const { ticketId } = req.body;

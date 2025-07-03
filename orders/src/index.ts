@@ -3,6 +3,8 @@ import { app } from "./app";
 import { natsWrapper } from "./NatsWrapper";
 import { TicketCreatedListener } from "./events/listeners/TicketCreatedListener";
 import { TicketUpdatedListener } from "./events/listeners/TicketUpdatedListener";
+import { ExpirationCompleteListener } from "./events/listeners/ExpirationCompleteListener";
+
 const start = async () => {
   try {
     if (!process.env.MONGO_URI) {
@@ -36,6 +38,7 @@ const start = async () => {
 
     new TicketCreatedListener(natsWrapper.client).listen();
     new TicketUpdatedListener(natsWrapper.client).listen();
+    new ExpirationCompleteListener(natsWrapper.client).listen();
 
     await mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to MongoDB");
@@ -45,12 +48,12 @@ const start = async () => {
   } catch (err) {
     console.error(err);
   }
+
+  const PORT = process.env.PORT || 3000;
+
+  app.listen(PORT, () => {
+    console.log(`Server is running on port: ${PORT}`);
+  });
 };
 
 start();
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`);
-});
