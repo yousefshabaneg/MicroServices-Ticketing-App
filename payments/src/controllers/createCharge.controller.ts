@@ -6,6 +6,7 @@ import {
   NotFoundError,
   OrderStatus,
 } from "@joe-tickets/common";
+import { stripe } from "../stripe";
 class CreateChargeController {
   static createCharge = async (req: Request, res: Response) => {
     const { token, orderId } = req.body;
@@ -23,7 +24,13 @@ class CreateChargeController {
       throw new BadRequestError("Cannot pay for a cancelled order");
     }
 
-    res.status(200).json({ success: true });
+    const charge = await stripe.charges.create({
+      currency: "usd",
+      amount: order.price * 100,
+      source: token,
+    });
+
+    res.status(201).json({ success: true, charge });
   };
 }
 
