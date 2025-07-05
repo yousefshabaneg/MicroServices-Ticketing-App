@@ -11,7 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@joe-tickets/common": "^1.0.11",
+    "@joe-tickets/common": "^1.0.13",
     "bcrypt": "^6.0.0",
     "cookie-session": "^2.1.0",
     "express": "^5.1.0",

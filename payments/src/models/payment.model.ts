@@ -1,21 +1,30 @@
 import mongoose from "mongoose";
-import { updateIfCurrentPlugin } from "mongoose-update-if-current";
-import { Order, OrderStatus } from "./order.model";
 
-interface PaymentAttrs {}
+interface PaymentAttrs {
+  orderId: string;
+  stripeId: string;
+}
 
-export interface PaymentDoc extends mongoose.Document {}
+export interface PaymentDoc extends mongoose.Document {
+  orderId: string;
+  stripeId: string;
+}
 
 interface PaymentModel extends mongoose.Model<PaymentDoc> {
   build(attrs: PaymentAttrs): PaymentDoc;
-  findByEvent(event: {
-    id: string;
-    version: number;
-  }): Promise<PaymentDoc | null>;
 }
 
 const ticketSchema = new mongoose.Schema(
-  {},
+  {
+    orderId: {
+      type: String,
+      required: true,
+    },
+    stripeId: {
+      type: String,
+      required: true,
+    },
+  },
   {
     toJSON: {
       transform(doc, ret) {
@@ -26,10 +35,9 @@ const ticketSchema = new mongoose.Schema(
   }
 );
 
-ticketSchema.set("versionKey", "version");
-ticketSchema.plugin(updateIfCurrentPlugin);
-
-ticketSchema.statics.build = (attrs: PaymentAttrs) => {};
+ticketSchema.statics.build = (attrs: PaymentAttrs) => {
+  return new Payment(attrs);
+};
 
 const Payment = mongoose.model<PaymentDoc, PaymentModel>(
   "Payment",

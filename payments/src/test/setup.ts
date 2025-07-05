@@ -10,6 +10,8 @@ declare global {
 vi.mock("../NatsWrapper");
 
 let mongo: MongoMemoryServer;
+process.env.STRIPE_KEY =
+  "sk_test_51MU6lZHx5OIKmdZczHzkheOBYhb9e9wrlHwgJvu9Ufy7wYMGUswljz03LZfzmmwgk25EMpFOImAqL91cpDGxiVCT006keIAl4f";
 
 beforeAll(async () => {
   process.env.JWT_KEY = "asdfasdf";

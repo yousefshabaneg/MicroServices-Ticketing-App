@@ -1,22 +1,21 @@
 import {
   Subjects,
   BaseListener,
-  ExpirationCompleteEvent,
+  PaymentCreatedEvent,
   OrderStatus,
 } from "@joe-tickets/common";
 import { Message } from "node-nats-streaming";
-import { Ticket } from "../../models/ticket.model";
 import { queueGroupName } from "./QueueGroupName";
 import { Order } from "../../models/order.model";
-import { OrderCancelledPublisher } from "../OrderCancelledPublsiher";
+import { OrderCompletePublisher } from "../OrderCompletePublisher";
 import { natsWrapper } from "../../NatsWrapper";
 
-export class ExpirationCompleteListener extends BaseListener<ExpirationCompleteEvent> {
-  readonly subject = Subjects.ExpirationComplete;
+export class PaymentCreatedListener extends BaseListener<PaymentCreatedEvent> {
+  readonly subject = Subjects.PaymentCreated;
   queueGroupName = queueGroupName;
 
   async onMessage(
-    data: ExpirationCompleteEvent["data"],
+    data: PaymentCreatedEvent["data"],
     msg: Message
   ): Promise<void> {
     const { orderId } = data;
@@ -26,18 +25,16 @@ export class ExpirationCompleteListener extends BaseListener<ExpirationCompleteE
       throw new Error("Order not found");
     }
 
-    if (order.status === OrderStatus.Complete) {
-      return msg.ack();
-    }
-
-    order.status = OrderStatus.Cancelled;
+    order.status = OrderStatus.Complete;
     await order.save();
 
-    await new OrderCancelledPublisher(natsWrapper.client).publish({
+    await new OrderCompletePublisher(natsWrapper.client).publish({
       id: order.id,
       version: order.version,
+      status: order.status,
       ticket: {
         id: order.ticket.id,
+        price: order.ticket.price,
       },
     });
     msg.ack();
