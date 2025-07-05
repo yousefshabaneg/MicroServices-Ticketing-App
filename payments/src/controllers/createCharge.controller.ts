@@ -46,7 +46,7 @@ class CreateChargeController {
       stripeId: payment.stripeId,
     });
 
-    res.status(201).json({ success: true, payment });
+    res.status(201).json({ success: true, id: payment.id });
   };
 }
 
