@@ -2,6 +2,18 @@
 
 A comprehensive microservices-based ticket booking application built with Node.js, TypeScript, React, and Kubernetes. This application demonstrates modern microservices architecture patterns including event-driven communication, service isolation, and containerized deployment.
 
+## 🎯 Key Features
+
+- **Microservices Architecture**: Scalable, maintainable service separation
+- **Event-Driven Communication**: Loose coupling with NATS streaming
+- **Container Orchestration**: Kubernetes deployment and scaling
+- **Type Safety**: Full TypeScript implementation
+- **Comprehensive Testing**: Unit, integration, and event testing
+- **Modern Frontend**: React with Next.js and Bootstrap
+- **Payment Integration**: Stripe payment processing
+- **Real-time Updates**: Event-driven UI updates
+- **Development Workflow**: Skaffold for seamless development experience
+
 ## 🏗️ Architecture Overview
 
 This application follows a microservices architecture pattern with the following services:
@@ -329,17 +341,3 @@ This project is licensed under the ISC License.
 **Yousef Shaban**- email: [yousefshaban.eg@gmail.com](mailto:yousefshaban.eg@gmail.com)
 
 ---
-
-## 🎯 Key Features
-
-- **Microservices Architecture**: Scalable, maintainable service separation
-- **Event-Driven Communication**: Loose coupling with NATS streaming
-- **Container Orchestration**: Kubernetes deployment and scaling
-- **Type Safety**: Full TypeScript implementation
-- **Comprehensive Testing**: Unit, integration, and event testing
-- **Modern Frontend**: React with Next.js and Bootstrap
-- **Payment Integration**: Stripe payment processing
-- **Real-time Updates**: Event-driven UI updates
-- **Development Workflow**: Skaffold for seamless development experience
-
-This application demonstrates modern microservices best practices and provides a solid foundation for building scalable, event-driven applications.
