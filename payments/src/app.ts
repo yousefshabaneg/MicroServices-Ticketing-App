@@ -5,6 +5,7 @@ import {
   CurrentUserMiddleware,
 } from "@joe-tickets/common";
 import cookieSession from "cookie-session";
+import { createChargeRouter } from "./routes/createCharge.routes";
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.use(
 );
 
 app.use(CurrentUserMiddleware.currentUser);
+
+app.use(createChargeRouter);
 
 app.all(/(.*)/, async (req, res, next) => {
   throw new NotFoundError();

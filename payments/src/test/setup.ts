@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
 declare global {
-  var signin: () => string[];
+  var signin: (userId?: string) => string[];
 }
 
 vi.mock("../NatsWrapper");
@@ -36,9 +36,9 @@ afterAll(async () => {
 });
 
 // 👇 Global signin function
-globalThis.signin = () => {
+globalThis.signin = (userId?: string) => {
   const payload = {
-    id: new mongoose.Types.ObjectId().toHexString(),
+    id: userId || new mongoose.Types.ObjectId().toHexString(),
     email: "test@test.com",
   };
 
