@@ -15,12 +15,12 @@ const start = async () => {
   } catch (err) {
     console.error(err);
   }
+
+  const PORT = process.env.PORT || 3000;
+
+  app.listen(PORT, () => {
+    console.log(`Server is running on port: ${PORT}`);
+  });
 };
 
 start();
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`);
-});
