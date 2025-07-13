@@ -19,3 +19,5 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: docker push yousefshabaneg/expiration
       - run: docker logout
+      - run: kubectl config use-context minikube
+      - run: kubectl rollout restart deployment expiration-depl
