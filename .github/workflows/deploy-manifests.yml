@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -32,9 +32,9 @@ jobs:
       - name: Logout from Docker Hub
         run: docker logout
 
-      - name: Set Minikube context
-        run: |
-          kubectl config use-context minikube
+      # - name: Set Minikube context
+      #   run: |
+      #     kubectl config use-context minikube
 
-      - name: Apply Kubernetes Manifests
-        run: kubectl apply -f infra/k8s
+      # - name: Apply Kubernetes Manifests
+      #   run: kubectl apply -f infra/k8s
