@@ -46,8 +46,9 @@ const orderSchema = new mongoose.Schema(
   {
     toJSON: {
       transform(doc, ret) {
-        ret.id = ret._id;
-        delete ret._id;
+        ret.id = ret._id?.toString();
+        if ("_id" in ret) delete ret._id;
+        if ("__v" in ret) delete ret.__v;
       },
     },
   }
