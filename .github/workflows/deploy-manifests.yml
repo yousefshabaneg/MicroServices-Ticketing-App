@@ -9,32 +9,15 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Login to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Set Minikube context
+        run: |
+          kubectl config use-context minikube
 
-      - name: Build and push auth Docker image
-        run: cd auth && docker build -t yousefshabaneg/auth .
-      - name: Build and push tickets Docker image
-        run: cd tickets && docker build -t yousefshabaneg/tickets .
-      - name: Build and push orders Docker image
-        run: cd orders && docker build -t yousefshabaneg/orders .
-      - name: Build and push payments Docker image
-        run: cd payments && docker build -t yousefshabaneg/payments .
-      - name: Build and push Ticketing-client Docker image
-        run: cd client && docker build -t yousefshabaneg/ticketing-client .
-
-      - name: Logout from Docker Hub
-        run: docker logout
-
-      # - name: Set Minikube context
-      #   run: |
-      #     kubectl config use-context minikube
-
-      # - name: Apply Kubernetes Manifests
-      #   run: kubectl apply -f infra/k8s
+      - name: Apply Kubernetes Manifests
+        run: kubectl apply -f infra/k8s
