@@ -54,7 +54,7 @@ const styles = {
   container: {
     maxWidth: "900px",
     margin: "40px auto",
-    padding: "20px",
+    padding: "21px",
     fontFamily: "Arial, sans-serif",
   },
   heading: {
