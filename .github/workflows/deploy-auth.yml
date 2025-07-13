@@ -16,7 +16,7 @@ jobs:
           cd auth
           docker build -t yousefshabaneg/auth .
       - run: echo $env:DOCKER_PASSWORD | docker login -u $env:DOCKER_USERNAME --password-stdin
-        shell: pwsh
+        shell: powershell
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
