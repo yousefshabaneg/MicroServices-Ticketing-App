@@ -12,7 +12,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
-      - run: cd payments && docker build -t yousefshabaneg/payments .
+      - run: Set-Location payments; docker build -t yousefshabaneg/payments .
+        shell: pwsh
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
