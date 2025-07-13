@@ -15,11 +15,11 @@ jobs:
       - run: |
           cd tickets
           docker build -t yousefshabaneg/tickets .
-      - run: echo $env:DOCKER_PASSWORD | docker login -u $env:DOCKER_USERNAME --password-stdin
+          - run: |
+          $securePass = ConvertTo-SecureString "${{ secrets.DOCKER_PASSWORD }}" -AsPlainText -Force
+          $creds = New-Object System.Management.Automation.PSCredential("${{ secrets.DOCKER_USERNAME }}", $securePass)
+          docker login -u $creds.UserName -p $creds.GetNetworkCredential().Password
         shell: powershell
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: docker push yousefshabaneg/tickets
       - run: docker logout
       - run: kubectl config use-context minikube
