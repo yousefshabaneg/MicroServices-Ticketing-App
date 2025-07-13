@@ -15,6 +15,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Login to Docker Hub
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push auth Docker image
+        run: cd auth && docker build -t yousefshabaneg/auth .
+      - name: Build and push tickets Docker image
+        run: cd tickets && docker build -t yousefshabaneg/tickets .
+      - name: Build and push orders Docker image
+        run: cd orders && docker build -t yousefshabaneg/orders .
+      - name: Build and push payments Docker image
+        run: cd payments && docker build -t yousefshabaneg/payments .
+      - name: Build and push Ticketing-client Docker image
+        run: cd client && docker build -t yousefshabaneg/ticketing-client .
+
+      - name: Logout from Docker Hub
+        run: docker logout
+
       - name: Set Minikube context
         run: |
           kubectl config use-context minikube
