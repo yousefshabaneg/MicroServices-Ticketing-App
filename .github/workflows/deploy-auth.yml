@@ -13,9 +13,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: cd auth && docker build -t yousefshabaneg/auth .
+      - run: cd tickets && docker build -t yousefshabaneg/tickets .
+      - run: cd orders && docker build -t yousefshabaneg/orders .
+      - run: cd expiration && docker build -t yousefshabaneg/expiration .
+      - run: cd payments && docker build -t yousefshabaneg/payments .
+      - run: cd client && docker build -t yousefshabaneg/ticketing-client .
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: docker push yousefshabaneg/auth
+      - run: docker push yousefshabaneg/tickets
+      - run: docker push yousefshabaneg/orders
+      - run: docker push yousefshabaneg/expiration
+      - run: docker push yousefshabaneg/payments
+      - run: docker push yousefshabaneg/ticketing-client
       - run: docker logout
